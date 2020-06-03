@@ -1,0 +1,13 @@
+mixin contact(text)
+  if text==='phone'
+    a.contact.contact--phone(href='tel:+78005550675' target='_blank')
+      +icon('phone')
+      span.contact__text +7 (800) 555-06-75
+  if text==='email'
+    a.contact.contact--email(href='mailto:sales@selectel.ru' target='_blank')
+      +icon('email')
+      span.contact__text Написать в почту
+  if text==='telegram'
+    a.contact.contact--telegram(href='https://t.me/Selectel' target='_blank')
+      +icon('telegram')
+      span.contact__text Написать в Telegram

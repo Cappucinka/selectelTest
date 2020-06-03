@@ -1,0 +1,21 @@
+@import '~normalize.css';
+@import 'typography';
+@import 'colors';
+@import 'screen-size.scss';
+@import 'mixins.scss';
+
+body {
+  font-family: $font-gotham-pro-regular;
+  font-size: 14px;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  max-width: 960px;
+  padding: 0 20px;
+  margin: 0 auto;
+
+  @media (min-width: $screen-size-m) {
+    padding: 0 30px;
+  }
+}

@@ -1,0 +1,11 @@
+/* Museo Sans Cyrl - normal */
+@font-face {
+  font-family: 'Museo Sans Cyrl';
+  src: url('MuseoSansCyrl-500.eot');
+  src: local('MuseoSansCyrl-500'),
+    url('MuseoSansCyrl-500.eot?#iefix') format('embedded-opentype'),
+    url('MuseoSansCyrl-500.woff') format('woff'),
+    url('MuseoSansCyrl-500.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

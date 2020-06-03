@@ -1,0 +1,83 @@
+.contact {
+  $block: &;
+
+  display: inline-flex;
+  align-items: center;
+  font-family: $font-gotham-pro-regular;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.0125em;
+  color: $color-grey-500;
+  fill: $color-grey-500;
+  text-decoration: none;
+  padding-left: 16px;
+
+
+  &__text {
+    display: none;
+    padding-left: 9px;
+
+    @media (min-width: $screen-size-l) {
+      display: block;
+    }
+  }
+
+  &--phone {
+    width: 8px;
+
+    @media (min-width: $screen-size-m) {
+      width: 12px;
+    }
+
+    #{$block}__text {
+      @media (min-width: $screen-size-l) {
+        padding-left: 3px;
+      }
+    }
+  }
+
+  &--email {
+    width: 9px;
+
+    @media (min-width: $screen-size-m) {
+      width: 16px;
+      padding-left: 36px;
+    }
+
+    #{$block}__text {
+      @media (min-width: $screen-size-l) {
+        padding-left: 9px;
+      }
+    }
+  }
+
+  &--telegram {
+    width: 8px;
+
+    @media (min-width: $screen-size-m) {
+      width: 12px;
+      padding-left: 39px;
+    }
+
+    #{$block}__text {
+      @media (min-width: $screen-size-l) {
+        padding-left: 8px;
+      }
+    }
+  }
+
+  @media (min-width: $screen-size-l) {
+    width: auto;
+  }
+  
+  &:hover,
+  &:focus {
+    color: $color-grey-700;
+    fill: $color-grey-700;
+  }
+
+  &:active {
+    color: $color-blue-900;
+    fill: $color-blue-900;
+  }
+}

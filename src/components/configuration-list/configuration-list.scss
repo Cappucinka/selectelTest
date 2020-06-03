@@ -1,0 +1,24 @@
+.configuration-list {
+  &__title {
+    font-family: $font-gotham-pro-regular;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0.0025em;
+    color: $color-blue-900;
+    margin-bottom: 20px;
+
+    @media (min-width: $screen-size-m) {
+      font-size: 18px;
+    }
+
+    @media (min-width: $screen-size-l) {
+      margin-bottom: 31px;
+    }
+  }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

@@ -1,0 +1,27 @@
+include ../button-ghost/button-ghost.pug
+
+li.configuration-list-item
+  .configuration-list-item__container
+    .configuration-list-item__name= name
+    .configuration-list-item__info
+      .configuration-list-item__cpu
+        | #{cpu.count > 1 ? cpu.count + ' x ' : ''}
+        | #{cpuName}
+        br.configuration-list-item__br-cpu
+        | #{cpuModel}
+        br.configuration-list-item__br-cpu
+        | #{cpuGGC},
+        | #{cpu.count * cpu.cores}
+        | #{cpu.count * cpu.cores > 4 ? 'ядер' : 'ядра'}
+      .configuration-list-item__ram= ram
+      .configuration-list-item__disk
+        | #{disk.count > 1 ? disk.count + ' x ' : ''}#{disk.value}
+        | ГБ
+        | #{disk.type}
+      .configuration-list-item__gpu= gpu
+  .configuration-list-item__buy
+    .configuration-list-item__price
+      | #{priceText}
+      br.configuration-list-item__br-price
+      |  ₽/месяц
+    +button-ghost('Заказать', 'https://selectel.ru/')(class='configuration-list-item__button')

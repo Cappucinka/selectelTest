@@ -1,0 +1,108 @@
+.promo {
+  margin-top: 32px;
+  position: relative;
+
+  &__title {
+    font-family: $font-gotham-pro-bold;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: 0.0025em;
+    color: $color-blue-900;
+    margin: 0 0 18px;
+
+    @media (min-width: $screen-size-m) {
+      font-size: 26px;
+      max-width: 412px;
+    }
+
+    @media (min-width: $screen-size-l) {
+      font-size: 32px;
+      max-width: 528px;
+    }
+  }
+
+  &__text {
+    font-family: $font-gotham-pro-regular;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: 0.0025em;
+    color: $color-grey-500;
+    margin-bottom: 25px;
+
+    @media (min-width: $screen-size-m) {
+      font-size: 16px;
+      max-width: 412px;
+    }
+
+    @media (min-width: $screen-size-l) {
+      font-size: 18px;
+      max-width: 528px;
+      margin-bottom: 27px;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    font-family: $font-gotham-pro-regular;
+    font-size: 10px;
+    line-height: 24px;
+    letter-spacing: 0.0275em;
+    color: $color-white;
+    background: $color-blue-500;
+    border: none;
+    border-radius: 6px;
+    padding: 1px 8px;
+    margin-bottom: 149px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      background-color: $color-blue-300;
+    }
+  
+    &:active {
+      background-color: $color-blue-700;
+    }
+  
+    &:disabled {
+      background-color: $color-grey-300;
+    }
+
+    @media (min-width: $screen-size-m) {
+      font-size: 14px;
+      padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &:after {
+    content: url(../images/ball_mobile.jpg);
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    right: 8px;
+    z-index: -99;
+
+    @media (min-width: $screen-size-m) {
+      content: url(../images/ball_table.jpg);
+      top: -26px;
+      right: 6px;
+    }
+
+    @media (min-width: $screen-size-l) {
+      content: url(../images/ball_desk.jpg);
+      top: -50px;
+      right: -40px;  
+    }
+  }
+  
+  @media (min-width: $screen-size-m) {
+    margin-top: 60px;
+  }
+
+  @media (min-width: $screen-size-l) {
+    margin-top: 77px;
+  }
+}

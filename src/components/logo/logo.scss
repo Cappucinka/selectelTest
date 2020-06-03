@@ -1,0 +1,19 @@
+.logo {
+  display: inline-block;
+  background-image: url(../components/logo/img/logo.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 52px;
+  height: 11px;
+  cursor: pointer;
+
+  @media (min-width: $screen-size-m) {
+    width: 82px;
+    height: 18px;
+  }
+
+  @media (min-width: $screen-size-l) {
+    width: 112px;
+    height: 24px;
+  }
+}

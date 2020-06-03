@@ -1,0 +1,23 @@
+/* Gotham Pro - normal */
+@font-face {
+  font-family: 'Gotham Pro Regular';
+  src: url('GothamPro.eot');
+  src: local('Gotham Pro'), local('GothamPro'),
+    url('GothamPro.eot?#iefix') format('embedded-opentype'),
+    url('GothamPro.woff') format('woff'),
+    url('GothamPro.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Gotham Pro - bold */
+@font-face {
+  font-family: 'Gotham Pro Bold';
+  src: url('GothamPro-Bold.eot');
+  src: local('Gotham Pro'), local('GothamPro'),
+    url('GothamPro-Bold.eot?#iefix') format('embedded-opentype'),
+    url('GothamPro-Bold.woff') format('woff'),
+    url('GothamPro-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}

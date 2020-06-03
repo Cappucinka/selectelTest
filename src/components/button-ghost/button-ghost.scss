@@ -1,0 +1,30 @@
+.button-ghost {
+  display: inline-block;
+  padding: 0 21px;
+  font-family: $font-roboto;
+  font-size: 10px;
+  letter-spacing: 0.0275em;
+  line-height: 22px;
+  text-transform: capitalize;
+  color: $color-black;
+  background-color: $color-white;
+  border: 1px solid $color-black;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    background-color: $color-blue-100;
+  }
+
+  &:active {
+    background-color: $color-blue-300;
+  }
+
+  &:disabled {
+    color: $color-grey-300;
+    border-color: $color-grey-300;
+  }
+}

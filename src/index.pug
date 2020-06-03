@@ -1,0 +1,17 @@
+include mixins.pug
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="Тестовое задание Selectel")
+    link(rel="icon", href="favicon.png")
+    title Тестовое задание Selectel
+  body
+    main.wrapper
+      include components/header/header.pug
+      +promo
+      +filter('Доступные конфигурации')
+      +configuration-list('js_configuration_list', 'Performance Line')
+    include components/footer/footer.pug
