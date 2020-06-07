@@ -41,7 +41,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.js', '.json', '.png'],
+    extensions: ['.js', '.json', '.png', '.svg'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
@@ -111,19 +111,7 @@ module.exports = {
         test: /\.pug$/,
         loader: 'pug-loader'
       },
-      {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-            ],
-          },
-        },
-      },
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
     ],
   },
   optimization: optimization(),

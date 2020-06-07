@@ -2,7 +2,7 @@ mixin filter(title)
   section.filter
     h2.filter__title= title
     .filter__wrapper
-      +slider('js_filter_core', 'js_filter_core_label')
+      +slider('js_filter_core', 'js_filter_core_label', 'vCPU')
       +checkbox('js_filter_gpu', 'gpu')(class='filter__checkbox filter__checkbox--gpu')
       +checkbox('js_filter_raid', 'raid')(class='filter__checkbox filter__checkbox--raid')
       +checkbox('js_filter_ssd', 'ssd')(class='filter__checkbox filter__checkbox--ssd')

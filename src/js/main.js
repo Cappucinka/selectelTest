@@ -1,5 +1,3 @@
-import noUiSlider from 'nouislider';
-
 const configurationListItem = require('../components/configuration-list-item/configuration-list-item.pug');
 const noResult = require('../components/no-result/no-result.pug');
 const error = require('../components/error/error.pug');
@@ -9,106 +7,169 @@ let isLoading = true;
 window.onload = function() {
   let configurationList = [];
 
-  let coreFilterValue = 6;
-  let gpuFilterValue = false;
-  let raidFilterValue = false;
-  let ssdFilterValue = false;
-
-  const coreFilterSlider = document.getElementById('js_filter_core');
-  noUiSlider.create(
-    coreFilterSlider,
-    {
-      range: {
-        'min': 2,
-        '25%': 4,
-        '50%': 6,
-        '75%': 8,
-        'max': 12,
-      },
-      snap: true,
-      connect: [true, false],
-      start: coreFilterValue,
-      pips: {
-        mode: 'values',
-        values: [2, 12],
-      },
-    },
-  );
-
-  const render = function(loading, items, coreFilter, gpuFilter, raidFilter, ssdFilter) {
+  let currentFilters = {
+    sliderCores: 6,
+    checkboxGpu: false,
+    checkboxRaid: false,
+    checkboxSsd: false,
+  };
+  
+  const render = function(loading, list, filters) {
     if (loading) {
       return;
     }
 
-    let filteredItems = items.filter(function(item) {
-      return item.cpu.cores * item.cpu.count === coreFilter;
-    });
+    let filteredData = list;
 
-    if (gpuFilter) {
-      filteredItems = filteredItems.filter(function(item) {
-        return item.gpu;
+    if (filters.sliderCores) {
+      document.getElementById('js_filter_core_label').innerHTML = filters.sliderCores + (filters.sliderCores > 4 ? ' ядер' : ' ядра');
+
+      filteredData = filteredData.filter(function(item){
+        return item.cpu && (item.cpu.count * item.cpu.cores === filters.sliderCores);
       });
     }
-
-    if (raidFilter) {
-      filteredItems = filteredItems.filter(function(item) {
+  
+    if (filters.checkboxGpu) {
+      filteredData = filteredData.filter(function(item){
+        return Boolean(item.gpu);
+      });
+    }
+  
+    if (filters.checkboxRaid) {
+      filteredData = filteredData.filter(function(item){
         return item.disk && item.disk.count >= 2;
       });
     }
-
-    if (ssdFilter) {
-      filteredItems = filteredItems.filter(function(item) {
-        return item.disk && item.disk.type.toLowerCase() === 'ssd';
+  
+    if (filters.checkboxSsd) {
+      filteredData = filteredData.filter(function(item){
+        return item.disk && item.disk.type === 'SSD';
       });
     }
 
-    let result = '';
-
-    filteredItems.forEach(function(item) {
-      const cpu = item.cpu.name.split(' ');
-      item.cpuName = cpu.slice(0, -2).join(' ');
-      item.cpuModel = cpu[cpu.length - 2];
-      item.cpuGGC = cpu[cpu.length - 1].replace('ГГц', ' ГГц');
-
-      item.priceText = Math.ceil(item.price / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
-      result += configurationListItem(item);
-    });
-    
-    if (result) {
-      document.getElementById('js_configuration_list').innerHTML = result;
-    } else {
+    if (filteredData.length === 0) {
       document.getElementById('js_configuration_list').innerHTML = noResult();
+      return;
     }
-  };
+  
+    let result = filteredData.reduce(function(total, current) {
+      let arr = current.cpu.name.split(' ');
+      current.cpuName = arr.slice(0, -2).join(' ');
+      current.cpuModel = arr[arr.length - 2];
+      current.cpuGGC = arr[arr.length - 1];
+
+      current.priceText = String(current.price / 100)
+        .split('')
+        .reverse()
+        .reduce(
+          function(total, item, index) {
+            if ((index + 1) % 3 === 0) {
+              return ' ' + item + total;
+            }
+
+            return item + total;
+          },
+          '',
+        );
+      return total + configurationListItem(current);
+    }, '');
+
+    document.getElementById('js_configuration_list').innerHTML = result;
+  }
 
   const renderError = function() {
     document.getElementById('js_configuration_list').innerHTML = error();
   };
 
-  coreFilterSlider.noUiSlider.on('update', function(values) {
-    coreFilterValue = parseInt(values[0]);
+  render(isLoading, configurationList, currentFilters);
 
-    document
-      .getElementById('js_filter_core_label')
-      .innerHTML = coreFilterValue + (coreFilterValue > 4 ? ' ядер' : ' ядра');
+  const initSlider = function(initValue) {
+    let slider = document.querySelector('.slider__line');
+    let item = slider.querySelector('.slider__handle');
+    let progress = slider.querySelector('.slider__progress');
+  
+    let range = [2, 4, 6, 8, 12];
+    let step = 100 / (range.length - 1);
+    let stepRanges = range.map(function(item, index) {
+      let obj = {
+        value: item,
+        start: ((index - 1) * step) + (step / 2),
+        end: (index * step) + (step / 2),
+      };
+      if (obj.start < 0) {
+        obj.start = 0;
+      }
+      if (obj.end > 100) {
+        obj.end = 100;
+      }
+      return obj;
+    });
+  
+    let sliderClientCoords = slider.getBoundingClientRect();
+    let sliderCoords = {};
+    sliderCoords.top = sliderClientCoords.top + pageYOffset;
+    sliderCoords.left = sliderClientCoords.left + pageXOffset;
 
-    render(isLoading, configurationList, coreFilterValue, gpuFilterValue, raidFilterValue, ssdFilterValue);
+    let widthSlider = slider.offsetWidth - item.offsetWidth;
+    let initIndex = range.indexOf(initValue);
+    item.style.left = widthSlider * (initIndex * step / 100) + 'px';
+    progress.style.width = widthSlider * (initIndex * step / 100) + 'px';
+
+    item.onmousedown = function(e) {
+      item.ondragstart = function() {
+        return false;
+      };
+      
+      let itemClientCoords = item.getBoundingClientRect();
+      let itemCoords = {};
+      itemCoords.top = itemClientCoords.top + pageYOffset;
+      itemCoords.left = itemClientCoords.left + pageXOffset;
+      
+      let right = slider.offsetWidth - item.offsetWidth;
+      
+      let shiftX = e.pageX - itemCoords.left;
+      
+      document.onmousemove = function(e){
+        let newLeft = e.pageX - sliderCoords.left - shiftX;
+        if (newLeft < 0) newLeft = 0;
+        if (newLeft > right) newLeft = right;
+        let percent = Math.round(newLeft / right * 100);
+        let label = 0;
+        stepRanges.forEach(function(item, index) {
+          if (percent >= item.start && percent <= item.end) {
+            percent = index * step;
+            label = item.value + (item.value > 4 ? ' ядер' : ' ядра');
+            currentFilters.sliderCores = item.value;
+            render(isLoading, configurationList, currentFilters);
+          }
+        });
+        item.style.left = right * (percent / 100) + 'px';
+        progress.style.width = right * (percent / 100) + 'px';
+      }
+      
+      document.onmouseup = function(){
+        document.onmousemove = document.onmouseup = null;
+      }
+  
+      return false;
+    }
+  };
+
+  initSlider(currentFilters.sliderCores);
+
+  document.getElementById('js_filter_gpu').addEventListener('click', function(event) {
+    currentFilters.checkboxGpu = event.currentTarget.checked;
+    render(isLoading, configurationList, currentFilters);
   });
 
-  document.getElementById('js_filter_gpu').addEventListener('change', function(event) {
-    gpuFilterValue = event.currentTarget.checked;
-    render(isLoading, configurationList, coreFilterValue, gpuFilterValue, raidFilterValue, ssdFilterValue);
+  document.getElementById('js_filter_raid').addEventListener('click', function(event) {
+    currentFilters.checkboxRaid = event.currentTarget.checked;
+    render(isLoading, configurationList, currentFilters);
   });
 
-  document.getElementById('js_filter_raid').addEventListener('change', function(event) {
-    raidFilterValue = event.currentTarget.checked;
-    render(isLoading, configurationList, coreFilterValue, gpuFilterValue, raidFilterValue, ssdFilterValue);
-  });
-
-  document.getElementById('js_filter_ssd').addEventListener('change', function(event) {
-    ssdFilterValue = event.currentTarget.checked;
-    render(isLoading, configurationList, coreFilterValue, gpuFilterValue, raidFilterValue, ssdFilterValue);
+  document.getElementById('js_filter_ssd').addEventListener('click', function(event) {
+    currentFilters.checkboxSsd = event.currentTarget.checked;
+    render(isLoading, configurationList, currentFilters);
   });
 
   const sendRequest = async function() {
@@ -124,7 +185,7 @@ window.onload = function() {
         .then(function(data) {
           configurationList = data;
           isLoading = false;
-          render(isLoading, configurationList, coreFilterValue, gpuFilterValue, raidFilterValue, ssdFilterValue);
+          render(isLoading, configurationList, currentFilters);
         })
         .catch(function(error) {
           error.text().then(function(errorMessage) {

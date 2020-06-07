@@ -1,6 +1,8 @@
-mixin slider(id, labelId)
+mixin slider(id, labelId, title)
   div.slider
-    h4.slider__title vCPU
-    div.slider__container
-      div.slider__core(id=id)
-      div.slider__label(id=labelId)
+    h4.slider__title= title
+    .slider__container
+      .slider__line(id=id)
+        .slider__progress
+        .slider__handle
+      .slider__label(id=labelId)

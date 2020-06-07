@@ -1,11 +1,11 @@
 .logo {
   display: inline-block;
-  background-image: url(../components/logo/img/logo.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
   width: 52px;
   height: 11px;
-  cursor: pointer;
+
+  &__img {
+    width: 100%;
+  }
 
   @media (min-width: $screen-size-m) {
     width: 82px;

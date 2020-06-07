@@ -22,6 +22,7 @@
   &__aside {
     width: 49px;
     padding-right: 31px;
+    flex: 0 0 auto;
 
     @media (min-width: $screen-size-m) {
       width: 115px;
@@ -88,6 +89,8 @@
 }
 
 .footer-menu {
+  width: 100%;
+
   &__list {
     margin: 0;
     padding: 0;
